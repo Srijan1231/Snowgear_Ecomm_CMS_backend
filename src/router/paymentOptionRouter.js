@@ -61,7 +61,15 @@ router.post("/", async (req, res, next) => {
 
 router.put("/", updatePaymentValidation, async (req, res, next) => {
   try {
-    const result = await updatePaymentById(req.body);
+    const { _id, title, status } = req.body;
+    const obj = {
+      _id,
+      title,
+      status,
+
+      slug: slugify(title, { trim: true, lower: true }),
+    };
+    const result = await updatePaymentById(obj);
 
     result?._id
       ? res.json({

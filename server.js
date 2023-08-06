@@ -21,7 +21,7 @@ import paymentOptionRouter from "./src/router/paymentOptionRouter.js";
 import { auth } from "./src/middleware/authMiddleware.js";
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/category", auth, categoryRouter);
-app.use("/api/v1/payment", auth, paymentOptionRouter);
+app.use("/api/v1/paymentoptions", auth, paymentOptionRouter);
 
 app.get("/", (req, res) => {
   res.json({
