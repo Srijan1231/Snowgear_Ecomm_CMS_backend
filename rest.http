@@ -1,0 +1,63 @@
+@rootAPI = http://localhost:8000/api/v1
+
+
+# ====== admin api 
+### Creare new admin
+POST {{rootAPI}}/admin
+Content-Type: application/json
+
+
+{
+"fName" : "saasknd",
+"lName": "dasdas",
+"phone": "042345",
+"password": "password",
+"email": "a@1234a.com",
+"address": ""
+} 
+
+
+### Creare new admin
+POST {{rootAPI}}/admin/sign-in
+Content-Type: application/json
+
+{
+"email": "a1@a.com",
+"password": "password"
+}
+
+
+
+
+# ====== admin api 
+### POST Category
+POST {{rootAPI}}/category
+Content-Type: application/json
+
+{
+    "title": "Home Furniture"
+}
+
+### GET Categories
+GET {{rootAPI}}/category
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2OTA2NzcxODQsImV4cCI6MTY5MDY3ODA4NH0.hzlnYlaj1EFU-g9ZTyYX1CyR_yVQmtEqVdh3kj5d_3I
+ 
+
+
+ 
+# ====== request new  access jwt api
+
+
+
+### GET Categories
+GET {{rootAPI}}/admin/get-accessjwt
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2OTA2ODgzOTAsImV4cCI6MTY5MzI4MDM5MH0.xNZBRHKYMLloGnYVoLyLp8ClPSPoUudLl8-ZNK-Nyvk
+
+### POST payment methods
+
+POST {{rootAPI}}/payment
+Content-Type: application/json
+
+{
+    "title":"Paypal"
+}
