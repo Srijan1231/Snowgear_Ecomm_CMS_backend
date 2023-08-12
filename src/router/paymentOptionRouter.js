@@ -1,10 +1,10 @@
 import express from "express";
 import {
-  deletePaymentbyId,
-  getPayments,
-  insertPayment,
-  updatePaymentById,
-} from "../model/payment/PaymentModel.js";
+  deletePaymentOptionbyId,
+  getPaymentsOption,
+  insertPaymentOption,
+  updatePaymentOptionById,
+} from "../model/paymentOption/PaymentOptionModel.js";
 import slugify from "slugify";
 import { updatePaymentValidation } from "../middleware/joiValidation.js";
 
@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    const result = await getPayments();
+    const result = await getPaymentsOption();
 
     res.json({
       status: "success",
@@ -38,7 +38,7 @@ router.post("/", async (req, res, next) => {
       slug: slugify(title, { trim: true, lower: true }),
     };
 
-    const result = await insertPayment(obj);
+    const result = await insertPaymentOption(obj);
 
     result?._id
       ? res.json({
@@ -69,7 +69,7 @@ router.put("/", updatePaymentValidation, async (req, res, next) => {
 
       slug: slugify(title, { trim: true, lower: true }),
     };
-    const result = await updatePaymentById(obj);
+    const result = await updatePaymentOptionById(obj);
 
     result?._id
       ? res.json({
@@ -88,7 +88,7 @@ router.delete("/:_id", async (req, res, next) => {
   const { _id } = req.params;
   try {
     if (_id) {
-      const result = await deletePaymentbyId(_id);
+      const result = await deletePaymentOptionbyId(_id);
       result?._id &&
         res.json({
           status: "success",
