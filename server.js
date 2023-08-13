@@ -14,21 +14,22 @@ mongoConnect();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+
 const __dirname = path.resolve();
-const a = path.join(__dirname, "/public");
-console.log(a);
-//convert static public folder to static serving folder
+
+//converting public folder to static serving folder
 app.use(express.static(path.join(__dirname, "/public")));
+
 // api
 import adminRouter from "./src/router/adminRouter.js";
 import categoryRouter from "./src/router/categoryRouter.js";
 import paymentOptionRouter from "./src/router/paymentOptionRouter.js";
-import productRouter from "./src/router/productRouter.js";
 import { auth } from "./src/middleware/authMiddleware.js";
-import multer from "multer";
+import productRouter from "./src/router/productRouter.js";
+
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/category", auth, categoryRouter);
-app.use("/api/v1/paymentoptions", auth, paymentOptionRouter);
+app.use("/api/v1/payment-option", auth, paymentOptionRouter);
 app.use("/api/v1/product", auth, productRouter);
 
 app.get("/", (req, res) => {
@@ -39,7 +40,6 @@ app.get("/", (req, res) => {
 });
 
 app.use((error, req, res, next) => {
-  console.log(error);
   const code = error.statusCode || 500;
   res.status(code).json({
     status: "error",

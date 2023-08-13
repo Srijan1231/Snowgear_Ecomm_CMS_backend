@@ -6,24 +6,22 @@
 POST {{rootAPI}}/admin
 Content-Type: application/json
 
-
 {
-"fName" : "saasknd",
-"lName": "dasdas",
+"fName" : "Prem",
+"lName": "Acharya",
 "phone": "042345",
-"password": "password",
-"email": "a@1234a.com",
+"password": "ff",
+"email": "a@a.com",
 "address": ""
 } 
 
-
-### Creare new admin
+### Loginadmin
 POST {{rootAPI}}/admin/sign-in
 Content-Type: application/json
 
 {
-"email": "a1@a.com",
-"password": "password"
+"email": "a@a.com",
+"password": "123456"
 }
 
 
@@ -33,6 +31,7 @@ Content-Type: application/json
 ### POST Category
 POST {{rootAPI}}/category
 Content-Type: application/json
+
 
 {
     "title": "Home Furniture"
@@ -52,12 +51,30 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJp
 ### GET Categories
 GET {{rootAPI}}/admin/get-accessjwt
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2OTA2ODgzOTAsImV4cCI6MTY5MzI4MDM5MH0.xNZBRHKYMLloGnYVoLyLp8ClPSPoUudLl8-ZNK-Nyvk
+ 
 
-### POST payment methods
+  
+# ======  payment option
 
-POST {{rootAPI}}/payment
+
+### post new po
+POST {{rootAPI}}/payment-option
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2OTEyOTIzNzUsImV4cCI6MTY5MTI5MzI3NX0.YeKvegaNmZLMcJAkpquebjj-yxtE5L2QVE-22kWJIrk
 
 {
-    "title":"Paypal"
+    "status": "inactive",
+    "title": "Pay by Bank Transfer",
+    "description": "Please do EFT to the BSB: 123456, ACC: 23456787654. Thank you."
 }
+
+### get all po 
+GET {{rootAPI}}/payment-option
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJpYXQiOjE2OTEyOTMzMzMsImV4cCI6MTY5MTI5NDIzM30.6ct8PalzYK9M3Tz319uYvpRUT9rh0CLGmDCDTPWPR4w
+
+
+
+# ======= product apis 
+
+### get products
+GET {{rootAPI}}/product

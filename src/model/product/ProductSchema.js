@@ -6,18 +6,40 @@ const productSchema = new mongoose.Schema(
       type: String,
       default: "inactive",
     },
+    parentCat: {
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: "Product",
+    },
     name: {
       type: String,
       required: true,
       maxLength: 150,
     },
+
+    slug: {
+      type: String,
+      unique: true,
+      index: 1,
+      required: true,
+    },
     price: {
       type: Number,
       required: true,
     },
+    salesPrice: {
+      type: Number,
+    },
+
     qty: {
       type: Number,
       required: true,
+    },
+    salesStartDate: {
+      type: Date,
+    },
+    salesEndDate: {
+      type: Date,
     },
     sku: {
       type: String,
@@ -28,28 +50,11 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    salesStartDate: {
-      type: Date,
-    },
-    salesEndDate: {
-      type: Date,
-    },
-    salesEndDate: {
-      type: Number,
-    },
-
-    slug: {
+    thumbnail: {
       type: String,
-      unique: true,
-      index: 1,
       required: true,
     },
-    parentCat: {
-      type: mongoose.Types.ObjectId,
-      required: true,
-      ref: "Product",
-    },
-    image: [
+    images: [
       {
         type: String,
       },

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const paymentSchema = new mongoose.Schema(
+const paymentOptionSchema = new mongoose.Schema(
   {
     status: {
       type: String,
@@ -10,11 +10,8 @@ const paymentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
-    slug: {
+    description: {
       type: String,
-      unique: true,
-      index: 1,
       required: true,
     },
   },
@@ -23,4 +20,4 @@ const paymentSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("PaymentOption", paymentSchema); ///payment
+export default mongoose.model("PaymentOption", paymentOptionSchema); ///paymentOptions

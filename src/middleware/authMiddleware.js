@@ -35,10 +35,9 @@ export const auth = async (req, res, next) => {
       message: "Unauthorized",
     });
   } catch (error) {
-    if (error.message.includes("jwt expired ")) {
+    if (error.message.includes("jwt expired")) {
       error.statusCode = 403;
       error.message = error.message;
-      console.log(error.message);
     }
     if (error.message.includes("invalid signature")) {
       error.statusCode = 401;

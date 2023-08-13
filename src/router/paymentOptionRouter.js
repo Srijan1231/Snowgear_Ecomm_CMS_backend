@@ -1,22 +1,23 @@
 import express from "express";
 import {
-  deletePaymentOptionbyId,
-  getPaymentsOption,
-  insertPaymentOption,
-  updatePaymentOptionById,
-} from "../model/paymentOption/PaymentOptionModel.js";
-import slugify from "slugify";
-import { updatePaymentValidation } from "../middleware/joiValidation.js";
-
+  deletePO,
+  getPOs,
+  insertPO,
+  updatePOById,
+} from "../model/payment-option/PaymentOptionModel.js";
+import {
+  newPOValidation,
+  updatePOValidation,
+} from "../middleware/joiValidation.js";
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    const result = await getPaymentsOption();
+    const result = await getPOs();
 
     res.json({
       status: "success",
-      message: " New payment method has been added",
+      message: " New category has been added",
       result,
     });
   } catch (error) {
@@ -24,21 +25,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", newPOValidation, async (req, res, next) => {
   try {
-    const { title } = req.body;
-    !title &&
-      res.json({
-        status: "error",
-        message: "Payment option title  is required",
-      });
-
-    const obj = {
-      title,
-      slug: slugify(title, { trim: true, lower: true }),
-    };
-
-    const result = await insertPaymentOption(obj);
+    const result = await insertPO(req.body);
 
     result?._id
       ? res.json({
@@ -47,38 +36,25 @@ router.post("/", async (req, res, next) => {
         })
       : res.json({
           status: "error",
-          message: "Error, Unable to add new payment method.",
+          message: "Error, Unable to add new Payment method.",
         });
   } catch (error) {
-    if (error.message.includes("E11000 duplicate key error")) {
-      error.statusCode = 409;
-      error.message =
-        "The slug for the category already exist, please change the payment name and try again.";
-    }
     next(error);
   }
 });
 
-router.put("/", updatePaymentValidation, async (req, res, next) => {
+router.put("/", updatePOValidation, async (req, res, next) => {
   try {
-    const { _id, title, status } = req.body;
-    const obj = {
-      _id,
-      title,
-      status,
-
-      slug: slugify(title, { trim: true, lower: true }),
-    };
-    const result = await updatePaymentOptionById(obj);
+    const result = await updatePOById(req.body);
 
     result?._id
       ? res.json({
           status: "success",
-          message: "The payment has been updated",
+          message: "The Payment option has been updated",
         })
       : res.json({
           status: "error",
-          message: "Error, Unable to update  payment methods.",
+          message: "Error, Unable to udpate Payment option.",
         });
   } catch (error) {
     next(error);
@@ -88,11 +64,11 @@ router.delete("/:_id", async (req, res, next) => {
   const { _id } = req.params;
   try {
     if (_id) {
-      const result = await deletePaymentOptionbyId(_id);
+      const result = await deletePO(_id);
       result?._id &&
         res.json({
           status: "success",
-          message: "The category has been deleted",
+          message: "The Payment options has been deleted",
         });
 
       return;
