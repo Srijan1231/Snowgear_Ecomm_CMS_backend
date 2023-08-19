@@ -91,3 +91,45 @@ in now
 
   console.log("Message sent: %s", info.messageId);
 };
+export const sendOTPNotification = async (obj) => {
+  const { email, fName, otp } = obj;
+  // 1. smtp config
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: `"EST Store " <${process.env.SMTP_USER}>`, // sender address
+    to: email, // list of receivers
+    subject: "OTP for reset password", // Subject line
+    text: `hello ${fName}, This is the OTP to reset password ${otp}`, // plain text body
+    html: `
+    <p>
+    Hello ${fName}
+</p>
+<p>
+Here is your OTP   to reset password 
+</p>
+<p>
+${otp}
+</p>
+
+ 
+
+<p>
+    Regards, <br />
+    EST Store <br />
+    Customer Support Team
+</p>
+    
+    `, // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+};

@@ -14,11 +14,16 @@ import {
 import {
   accountVerificationEmail,
   accountVerifiedNotification,
+  sendOTPNotification,
 } from "../helper/nodemailer.js";
 import { v4 as uuidv4 } from "uuid";
 import { createAcessJWT, createRefreshJWT } from "../helper/jwt.js";
 import { auth, refreshAuth } from "../middleware/authMiddleware.js";
-import { deleteSession } from "../model/session/SessionModel.js";
+import {
+  deleteSession,
+  insertNewSession,
+} from "../model/session/SessionModel.js";
+import { otpGenerator } from "../helper/randomGenerator.js";
 
 const router = express.Router();
 
@@ -30,6 +35,7 @@ router.get("/", auth, (req, res, next) => {
       message: "here is the user info",
       user: req.userInfo,
     });
+    console.log(req.userInfo);
   } catch (error) {
     next(error);
   }
@@ -168,6 +174,36 @@ router.post("/logout", async (req, res, next) => {
 
     res.json({
       status: "success",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+router.post("/request-otp", async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    if (email) {
+      const user = await getAdminByEmail(email);
+      if (user?._id) {
+        const otp = otpGenerator();
+        const obj = {
+          token: otp,
+          associate: email,
+        };
+        const result = await insertNewSession(obj);
+        if (result?._id) {
+          await sendOTPNotification({
+            otp,
+            email,
+            fName: user.fName,
+          });
+        }
+      }
+    }
+    res.json({
+      status: "success",
+      message:
+        "If your email exit you will receive email into your mailbox,please check your email for the instruction and otp",
     });
   } catch (error) {
     next(error);
