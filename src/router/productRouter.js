@@ -61,9 +61,18 @@ router.post(
         req.body.thumbnail = req.body.images[0];
       }
 
-      req.body.slug = slugify(req.body.name, { trim: true, lower: true });
+      req.body.slug = slugify(req.body.name, req.body.color, "/IceS/", {
+        trim: true,
+        lower: true,
+      });
+      req.body.sku = slugify(
+        req.body.name + req.body.color,
+        { trim: true, lower: false },
+        "_"
+      );
 
       const result = await insertProduct(req.body);
+      console.log(await result);
 
       result?._id
         ? res.json({
@@ -95,6 +104,11 @@ router.put(
         const newImgs = req.files.map((item) => item.path);
         req.body.images = [...req.body.images, ...newImgs];
       }
+      req.body.sku = slugify(
+        req.body.name + req.body.color,
+        { trim: true, lower: false },
+        "_"
+      );
 
       const result = await updateProductById(req.body);
 

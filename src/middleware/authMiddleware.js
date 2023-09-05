@@ -49,8 +49,9 @@ export const auth = async (req, res, next) => {
 
 export const refreshAuth = async (req, res, next) => {
   try {
-    // 1.get the accessJWT
+    // 1.get the refereshJWT
     const { authorization } = req.headers;
+    A;
 
     //2. decode the jwt
 

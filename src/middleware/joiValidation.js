@@ -31,6 +31,30 @@ export const newAdminValidation = (req, res, next) => {
     next(error);
   }
 };
+export const updateAdminValidation = (req, res, next) => {
+  try {
+    //define the schema
+    req.body.password = req.body.password;
+    const schema = Joi.object({
+      fName: SHORTSTRREQ,
+      lName: SHORTSTRREQ,
+      email: SHORTSTR.email({ minDomainSegments: 2 }).required(),
+      phone: SHORTSTRREQ,
+      address: SHORTSTR.allow(""),
+    });
+
+    const { error } = schema.validate(req.body);
+
+    error
+      ? res.json({
+          status: "error",
+          message: error.message,
+        })
+      : next();
+  } catch (error) {
+    next(error);
+  }
+};
 export const loginValidation = (req, res, next) => {
   try {
     //define the schema
@@ -151,7 +175,7 @@ export const newProductValidation = (req, res, next) => {
       status: SHORTSTRREQ,
       name: SHORTSTRREQ,
       parentCat: SHORTSTRREQ,
-      sku: SHORTSTRREQ,
+      color: SHORTSTRREQ,
       price: NUMREQ,
       qty: NUMREQ,
       salesPrice: NUM,
@@ -192,6 +216,7 @@ export const updateProductValidation = (req, res, next) => {
       name: SHORTSTRREQ,
       parentCat: SHORTSTRREQ,
       price: NUMREQ,
+      color: SHORTSTRREQ,
       qty: NUMREQ,
       salesPrice: NUM,
       description: LONGTSTR,

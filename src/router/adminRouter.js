@@ -10,6 +10,7 @@ import {
   loginValidation,
   newAdminValidation,
   newAdminVerificationValidation,
+  updateAdminValidation,
 } from "../middleware/joiValidation.js";
 import {
   accountVerificationEmail,
@@ -56,7 +57,7 @@ router.post("/", auth, newAdminValidation, async (req, res, next) => {
       res.json({
         status: "success",
         message:
-          "Please check your email and follow the instruction to activate your acount",
+          "Please check your email and follow the instruction to activate your account",
       });
 
       const link = ` ${process.env.WEB_DOMAIN}/admin-verification?c=${result.verificationCode}&e=${result.email}`;
@@ -205,6 +206,24 @@ router.post("/request-otp", async (req, res, next) => {
       message:
         "If your email exit you will receive email into your mailbox,please check your email for the instruction and otp",
     });
+  } catch (error) {
+    next(error);
+  }
+});
+router.put("/update", auth, updateAdminValidation, async (req, res, next) => {
+  try {
+    const { _id, password, ...rest } = req.body;
+
+    const result = await updateAdmin(req.body);
+    result?._id
+      ? res.json({
+          status: "success",
+          message: "The admin  has been updated successfully",
+        })
+      : res.json({
+          status: "error",
+          message: "Unable to update admin, try again later",
+        });
   } catch (error) {
     next(error);
   }
