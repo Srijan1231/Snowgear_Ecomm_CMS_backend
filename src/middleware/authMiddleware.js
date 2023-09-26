@@ -51,7 +51,6 @@ export const refreshAuth = async (req, res, next) => {
   try {
     // 1.get the refereshJWT
     const { authorization } = req.headers;
-    A;
 
     //2. decode the jwt
 

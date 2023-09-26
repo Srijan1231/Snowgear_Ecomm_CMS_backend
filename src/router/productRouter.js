@@ -72,7 +72,6 @@ router.post(
       );
 
       const result = await insertProduct(req.body);
-      console.log(await result);
 
       result?._id
         ? res.json({

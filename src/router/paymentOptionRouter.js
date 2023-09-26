@@ -9,6 +9,7 @@ import {
   newPOValidation,
   updatePOValidation,
 } from "../middleware/joiValidation.js";
+import slugify from "slugify";
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
@@ -27,6 +28,10 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", newPOValidation, async (req, res, next) => {
   try {
+    req.body.slug = slugify(req.body.title, {
+      trim: true,
+      lower: true,
+    });
     const result = await insertPO(req.body);
 
     result?._id

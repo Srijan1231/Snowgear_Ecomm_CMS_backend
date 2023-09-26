@@ -26,11 +26,13 @@ import categoryRouter from "./src/router/categoryRouter.js";
 import paymentOptionRouter from "./src/router/paymentOptionRouter.js";
 import { auth } from "./src/middleware/authMiddleware.js";
 import productRouter from "./src/router/productRouter.js";
+// import orderRouter from "./src/router/orderRouter.js";
 
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/category", auth, categoryRouter);
 app.use("/api/v1/payment-option", auth, paymentOptionRouter);
 app.use("/api/v1/product", auth, productRouter);
+// app.use("/api/v1/order", orderRouter);
 
 app.get("/", (req, res) => {
   res.json({

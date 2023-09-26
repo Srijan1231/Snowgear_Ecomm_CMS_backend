@@ -10,6 +10,12 @@ const paymentOptionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+
     description: {
       type: String,
       required: true,
