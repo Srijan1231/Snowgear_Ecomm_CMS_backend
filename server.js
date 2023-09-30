@@ -9,8 +9,8 @@ import path from "path";
 // middlewares
 import morgan from "morgan";
 import cors from "cors";
-import { mongoConnect } from "./src/config/mongoConfig.js";
-mongoConnect();
+// import { mongoConnect } from "./src/config/mongoConfig.js";
+// mongoConnect();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
@@ -33,13 +33,24 @@ app.use("/api/v1/category", auth, categoryRouter);
 app.use("/api/v1/payment-option", auth, paymentOptionRouter);
 app.use("/api/v1/product", auth, productRouter);
 // app.use("/api/v1/order", orderRouter);
-
-app.get("/", (req, res) => {
-  res.json({
-    status: "success",
-    message: "Server is live",
-  });
-});
+const mongoConnect = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URL);
+    conn
+      ? app.get("/", (req, res) => {
+          res.json({
+            status: "success",
+            message: "Server is live",
+          });
+        })
+      : app.get("/", (req, res) => {
+          res.json({ status: "error", message: "not connected" });
+        });
+  } catch (error) {
+    console.log(error);
+  }
+};
+mongoConnect();
 
 app.use((error, req, res, next) => {
   const code = error.statusCode || 500;
