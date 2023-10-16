@@ -1,30 +1,27 @@
-import OrderSchema from "./OrderSchema.js";
+import mongoose from "mongoose";
+const orders = mongoose.model("orders", {});
 
-export const insertProduct = (obj) => {
-  return OrderSchema(obj).save();
+export const getOrder = () => {
+  return orders.find();
 };
 
-export const getProducts = () => {
-  return OrderSchema.find();
+export const getOrderById = (_id) => {
+  return orders.findById(_id);
 };
 
-export const getProductById = (_id) => {
-  return OrderSchema.findById(_id);
+export const findOneOrderByFilter = (filter) => {
+  return orders.findOne(filter);
 };
 
-export const findOneProductByFilter = (filter) => {
-  return OrderSchema.findOne(filter);
-};
+// export const updateOrderById = ({ _id, ...rest }) => {
+//   return orders.findByIdAndUpdate(_id, rest, { new: true });
+// };
 
-export const updateProductById = ({ _id, ...rest }) => {
-  return OrderSchema.findByIdAndUpdate(_id, rest, { new: true });
-};
+// //@filter, @updateObj must be an obj
+// export const updateorder = (filter, updateObj) => {
+//   return orders.findOneAndUpdate(filter, updateObj, { new: true });
+// };
 
-//@filter, @updateObj must be an obj
-export const updateproduct = (filter, updateObj) => {
-  return OrderSchema.findOneAndUpdate(filter, updateObj, { new: true });
-};
-
-export const deleteproductbyId = (_id) => {
-  return OrderSchema.findByIdAndDelete(_id);
-};
+// export const deleteorderbyId = (_id) => {
+//   return orders.findByIdAndDelete(_id);
+// };
